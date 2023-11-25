@@ -43,3 +43,7 @@ https://github.com/MedARC-AI/fMRI-reconstruction-NSD/tree/main#training-mindeye-
 
 ### image decoder
 > https://github.com/huggingface/diffusers/tree/main
+
+## Installation (Conda)
+```conda env create -f env.yml [-n <custom_name>] -y```
+
