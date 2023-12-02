@@ -1,4 +1,4 @@
-1. linear layer 0
+#### 1. linear layer 0
 ```
 self.lin0 = nn.Sequential(
     nn.Linear(in_dim, h, bias=False),
@@ -7,33 +7,38 @@ self.lin0 = nn.Sequential(
     nn.Dropout(0.5),
 )
 ```
-a) nn.Sequential: applies layers in passed order  
-b) nn.Linear: linearly transform input (features)   
-c) nn.LayerNorm: normalize input for better convergence  
-d) nn.SiLU: activation function of choice  
-e) **nn.Dropout**: zeroes nodes with specified probability to 
+- nn.Sequential: applies layers in passed order  
+- nn.Linear: linearly transform input (features)   
+- nn.LayerNorm: normalize input for better convergence  
+- nn.SiLU: activation function of choice  
+- **nn.Dropout**: zeroes nodes with specified probability to 
 prevent co-adaption (overfitting)  
   
 ---
-2. multilayer perceptron
-```
-self.mlp = nn.ModuleList([
-    nn.Sequential(
-        nn.Linear(h, h, bias=False),
-        nn.LayerNorm(h),
-        nn.SiLU(inplace=True),
-        nn.Dropout(0.25),
-    ) for _ in range(n_blocks)
-])
-```
+#### 2. multilayer perceptron
 similar to step 1., but multiple pass
 
 ---
-3. linear layer 1
-```
-self.lin1 = nn.Linear(h, 16384, bias=False)
-self.norm = nn.GroupNorm(1, 64)
-```
+#### 3. linear layer 1
 once again reshape input, then pass through GroupNorm of 1 group (practically LayerNorm)
 
+---
+#### 4. upsampler
+supposedly transforms to 4(output channels) * 64 * 64  
+// TODO
 
+---
+#### 5. MyDataset
+custom object to link fmri voxels to stimulus images  
+images are resized to fit model requirement
+
+---
+#### 6. loading dataset
+- concatenate lh, rh (dimension: (39548, ))  
+- using pytorch lib:  
+    - split dataset randomly into training and validation
+    - use dataloader to optimize for parallel processing
+    - use scheduler to dynamically adjust learning rate with specified weight decay to prevent overfitting
+
+---
+#### 7. training
