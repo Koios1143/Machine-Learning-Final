@@ -61,7 +61,7 @@ class OpenClipper(torch.nn.Module):
         # assert clip_variant == 'ViT-L-14' # not setup for other models yet
          
         clip_model, _, preprocess = open_clip.create_model_and_transforms(clip_variant, 
-                                        pretrained='openai', device=device)
+                                        pretrained='laion2b_s32b_b79k', device=device)
             
         clip_model.eval() # dont want to train model
         for param in clip_model.parameters():
@@ -379,8 +379,8 @@ class DiffusionPriorNetwork(nn.Module):
 class BrainNetwork(nn.Module):
     def __init__(self, out_dim=768, in_dim=39548, clip_size=768, h=2048, n_blocks=4, norm_type='ln', act_first=False, use_projector=True):
         super().__init__()
-        norm_func = partial(nn.BatchNorm1d, num_features=h, inplace=False) if norm_type == 'bn' else partial(nn.LayerNorm, normalized_shape=h, inplace=False)
-        act_fn = partial(nn.ReLU, inplace=False) if norm_type == 'bn' else nn.GELU
+        norm_func = partial(nn.BatchNorm1d, num_features=h) if norm_type == 'bn' else partial(nn.LayerNorm, normalized_shape=h)
+        act_fn = partial(nn.ReLU, inplace=True) if norm_type == 'bn' else nn.GELU
         act_and_norm = (act_fn, norm_func) if act_first else (norm_func, act_fn)
         # self.temp = nn.Parameter(torch.tensor(.006))
         self.lin0 = nn.Sequential(
