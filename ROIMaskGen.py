@@ -74,4 +74,4 @@ def GetROI(image_idx, select_ROI):
     lh = GetRoiMaskedFmri(data_path=data_path, subject_num=subject_num, LR="left", regions=ROIs_tests[select_ROI])
     rh = GetRoiMaskedFmri(data_path=data_path, subject_num=subject_num, LR="right", regions=ROIs_tests[select_ROI])
     lrh = np.concatenate((lh, rh), axis=1)
-    return lrh[image_idx-1]
+    return lrh[image_idx]
