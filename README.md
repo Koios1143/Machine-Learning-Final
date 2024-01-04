@@ -4,6 +4,7 @@
 <img src="https://hackmd.io/_uploads/SJ7U1GRma.png" width=500>
 </center>
 </br>
+> Image from paper 「MindEye: fMRI-to-Image reconstruction & retrieval」
 
 ## Project 目標
 
@@ -13,15 +14,6 @@
 ## Dataset
 
 From TA, possibly subset of NSD dataset.
-
-## TODO
-
-1. 存取相關訓練圖片，並放入 Stable Diffusion image encoder
-2. 製作中間的 NN 部分
-3. 將輸出的資訊放入 Stable Diffusion image decoder
-
-可以參考 MindEye 是如何實作的 
-https://github.com/MedARC-AI/fMRI-reconstruction-NSD/tree/main#training-mindeye-low-level-pipeline
 
 ### image encoder
 > https://github.com/huggingface/diffusers/tree/main
