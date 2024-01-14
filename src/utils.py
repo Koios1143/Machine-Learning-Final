@@ -221,7 +221,7 @@ def GetROI(image_idx, select_ROI):
     """
     select_ROI = 0
     # determine the datapath and training subject
-    data_path = './dataset/'
+    data_path = '../dataset/'
     subject_num = 1
     
     # get masked fmri data

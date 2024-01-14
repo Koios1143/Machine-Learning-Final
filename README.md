@@ -1,37 +1,78 @@
 # 2023 Machine Learning Final Project
 
-<center>
-<img src="https://hackmd.io/_uploads/SJ7U1GRma.png" width=500>
-</center>
-</br>
-> Image from paper 「MindEye: fMRI-to-Image reconstruction & retrieval」
+## Introduction
 
-## Project 目標
+In this project, we aim to transform fMRI vetcors into images that the subject was looking at.
 
-- fMRI to image
-- 使用 MindEye 架構，加上 Bagging 策略
+We build this model by VAE, BLIP, Stable Diffusion and CLIP.
+
+## Architecture
+
+![](./docs/model_structure.png)
+
+> The architecture of our model.
+
+
+Our model architecture has three parts
+- Low-level Pipeline
+- Guided Reconstruction Pipeline
+- CLIP Voting Pipeline
+
+From Low-level Pipeline, we can retreive low-level feature by making fMRI vectors transformed to VAE latents.
+
+After get the low-level images, we then generate high level image by Diffusion(Guided Reconstruction Pipeline). This pipeline including prompts generation by BLIP and generate images by Stable Diffusion.
+
+We train several models base on the architecture described above, then use bagging technich on those models. Calculate similarity by projecting images to CLIP space, then calculating the Cosine Similarity.
+
+Finally, we get the result generate by our model.
 
 ## Dataset
 
-From TA, possibly subset of NSD dataset.
+From TA, a subset of NSD dataset.
 
-### image encoder
-> https://github.com/huggingface/diffusers/tree/main
+There are 8 subjects' data within this dataset. For each subject, we have fMRI data and corresponding images.
 
-### NN
+> [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1O2S2Ej15L-szub_ZHdm86VTlnnok1n79?usp=drive_link)
 
-首先我們確定每個 subject 的 training fmri 的資料大小分別是
+## Installation
 
-- **lh**: $(5000, 19004)$
-- **rh**: $(5000, 20544)$
+1. Install Python packages
+    ```bash
+    pip3 install -r requirements.txt
+    ```
+2. Download dataset from Google Drive
+    
+    Place the folder in project root directory, rename it to `dataset`.
+    > [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1O2S2Ej15L-szub_ZHdm86VTlnnok1n79?usp=drive_link)
+3. Make sure you have `Models/`, `results/` in project root directory
 
-兩個維度分別表示訓練的圖片編號以及 voxels。
+## General Information
 
-目前對於上面是如何把輸入從 $(N \times 15000)$ 變成 $(N \times 4 \times 64 \times 64)$ 的，從 trace code 的結果來看應該是從 $(N \times 15724)$ 變成 $(N \times 16384)$。
-這邊可以選擇繼續 trace code，甚至下載下來做各種測試，不過目前在環境上有點小卡關，可能需要再研究一下。
+All codes are in `src/` directory.
+- `TrainLowLevel.ipynb`
+  
+    Code for training low-level pipeline.
+- `TrainLowLevel_Modular.ipynb`
+  
+    Code for training low-level pipeline by Mojo.
+- `utils.py`
+  
+    Some utilities use in this project.
+- `Models.py`
 
-其他的話這裡也許會選擇把每個圖片的 lh 跟 rh 合在一起，變成 $(5000, 39548)$ 的資料輸入，目標變成 $(5000, 16384)$，然後再 reshape 成 $(5000, 4, 64, 64)$。
+    Definition of low-level pipeline model and Dataset class definition.
+- `CLIP_bagging.ipynb`
 
+    Including `Guided Reconstruction Pipeline` and `CLIP Voting Pipeline`, to generate training results.
 
-### image decoder
-> https://github.com/huggingface/diffusers/tree/main
+All trained low-level pipeline models should be place in `Models/`.
+
+While runnign `CLIP_baggin.ipynb`, the generated images should be place in `results/`.
+
+Some codes that were deprecated are place in `deprecated/` directory.
+
+## TODOs
+
+- Add data preload npy file to drive, and add some descriptions on it
+- Update to preload version model
+- Check install instructions
