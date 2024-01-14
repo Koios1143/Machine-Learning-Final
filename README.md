@@ -73,7 +73,3 @@ All trained low-level pipeline models should be place in `Models/`.
 While runnign `CLIP_baggin.ipynb`, the generated images should be place in `results/`.
 
 Some codes that were deprecated are place in `deprecated/` directory.
-
-## TODOs
-
-- Check install instructions
