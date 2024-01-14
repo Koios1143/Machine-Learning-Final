@@ -32,7 +32,7 @@ From TA, a subset of NSD dataset.
 
 There are 8 subjects' data within this dataset. For each subject, we have fMRI data and corresponding images.
 
-> [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1O2S2Ej15L-szub_ZHdm86VTlnnok1n79?usp=drive_link)
+> [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1KQXGIKlS9nu6mLwd13HmKYFv3GsAxXLK?usp=sharing)
 
 ## Installation
 
@@ -42,8 +42,11 @@ There are 8 subjects' data within this dataset. For each subject, we have fMRI d
     ```
 2. Download dataset from Google Drive
     
-    Place the folder in project root directory, rename it to `dataset`.
-    > [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1O2S2Ej15L-szub_ZHdm86VTlnnok1n79?usp=drive_link)
+    Place the folder in project root directory. Make sure the name is `dataset`.
+    > [Google Drive Link to Dataset](https://drive.google.com/drive/folders/1KQXGIKlS9nu6mLwd13HmKYFv3GsAxXLK?usp=sharing)
+
+    The file `dataset/subj01/training_split/fMRI_VAE.npy` is the preprocessed file. We manually transform training images in subject 1 into VAE latents, **But not for other subjects**.
+    If you hope to use other subject's data, then you should generate before by yourself.
 3. Make sure you have `Models/`, `results/` in project root directory
 
 ## General Information
@@ -73,6 +76,4 @@ Some codes that were deprecated are place in `deprecated/` directory.
 
 ## TODOs
 
-- Add data preload npy file to drive, and add some descriptions on it
-- Update to preload version model
 - Check install instructions

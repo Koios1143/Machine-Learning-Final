@@ -59,25 +59,25 @@ class Voxel2StableDiffusionModel(torch.nn.Module):
         return self.upsampler(x)
 
 import os
+import numpy as np
 from utils import load_image
 from torch.utils.data import Dataset
 
 class MyDataset(Dataset):
-  def __init__(self, fmri_data, images_folder, transform=None):
+  def __init__(self, fmri_data, VAE_latent_path, transform=None):
     self.fmri_data = fmri_data
-    self.images_folder = images_folder
-    self.image_paths = [f"{images_folder}/{filename}" for filename in os.listdir(images_folder)]
     self.transform = transform
+    self.image_latents = np.load(VAE_latent_path)
+    # for i in range(len(self.fmri_data)):
+    #     image = load_image(f"{images_folder}/{i}.png").to(device)
+    #     tr = self.transform(image)
+    #     self.image_latents.append(encode_img(tr, vae).to('cpu'))
 
   def __len__(self):
     return len(self.fmri_data)
 
   def __getitem__(self, idx):
     fmri = self.fmri_data[idx]
-    image_path = self.image_paths[idx]
-    image = load_image(image_path)
+    image_latent = self.image_latents[idx]
 
-    if(self.transform):
-      image = self.transform(image)
-
-    return fmri, image
+    return fmri, image_latent
