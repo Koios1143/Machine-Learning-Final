@@ -219,7 +219,6 @@ def GetROI(image_idx, select_ROI):
     Returns:
     masked fmri data, concatenate both Left and Right
     """
-    select_ROI = 0
     # determine the datapath and training subject
     data_path = '../dataset/'
     subject_num = 1
