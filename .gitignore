@@ -1,3 +1,8 @@
 dataset/*
 .ipynb_checkpoints/*
 __pycache__/*
+src/__pycache__/*
+src/.ipynb_checkpoints/*
+Models/*
+src/wandb/*
+results/*
